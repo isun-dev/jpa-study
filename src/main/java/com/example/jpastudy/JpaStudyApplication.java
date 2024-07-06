@@ -6,23 +6,28 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.List;
+
 @SpringBootApplication
 public class JpaStudyApplication {
 
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
         EntityManager em = emf.createEntityManager();
-        //code
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
-        Member findMember = em.find(Member.class, 2L);
-        findMember.setName("tony"); // 가능한 이유: jpa에서 엔티티를 관리
+        List<Member> resultList = em.createQuery("select m from Member as m", Member.class)
+                .setFirstResult(1) // 페이지네이션
+                .setMaxResults(5)
+                .getResultList();
+
+        for (Member member : resultList) {
+            System.out.println("member = " + member.getName());
+        }
 
         tx.commit();
-
         em.close();
         emf.close();
     }
-
 }
