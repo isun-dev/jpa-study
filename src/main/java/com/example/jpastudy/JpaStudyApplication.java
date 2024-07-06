@@ -16,15 +16,8 @@ public class JpaStudyApplication {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
-        Member member = new Member();
-
-//        member.setId(1L);
-//        member.setName("andy");
-
-        member.setId(2L);
-        member.setName("amy");
-
-        em.persist(member);
+        Member findMember = em.find(Member.class, 1L);
+        System.out.println("findMember.getName() = " + findMember.getName());
 
         tx.commit();
 
