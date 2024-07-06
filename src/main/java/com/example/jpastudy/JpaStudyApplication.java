@@ -17,7 +17,7 @@ public class JpaStudyApplication {
         tx.begin();
 
         Member findMember = em.find(Member.class, 1L);
-        System.out.println("findMember.getName() = " + findMember.getName());
+        em.remove(findMember);
 
         tx.commit();
 
