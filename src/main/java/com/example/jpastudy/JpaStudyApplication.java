@@ -16,8 +16,8 @@ public class JpaStudyApplication {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
-        Member findMember = em.find(Member.class, 1L);
-        em.remove(findMember);
+        Member findMember = em.find(Member.class, 2L);
+        findMember.setName("tony"); // 가능한 이유: jpa에서 엔티티를 관리
 
         tx.commit();
 
