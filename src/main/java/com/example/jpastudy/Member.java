@@ -1,30 +1,43 @@
+/*
+ * 기록
+ * 2024년 9월 8일
+ * 자바 ORM 표준 JPA 프로그래밍 - 기본편
+ * 섹션 5. 엔티티 매핑
+ * 필드와 컬럼 매핑
+ */
 package com.example.jpastudy;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Date;
 
 @Entity
-//@Table(name = "USER") // 테이블명이 만약 MEMBER가 아니라면, 이렇게 명시를 해줄수도 있다.
+@Setter
+@Getter
 public class Member {
 
     @Id
     private Long id;
-    private String name;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "name")
+    private String username;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private Integer age;
 
-    public String getName() {
-        return name;
-    }
+    @Enumerated(EnumType.STRING)
+    private RoleType roleType;
 
-    public void setName(String name) {
-        this.name = name;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastModifiedDate;
+
+    @Lob
+    private String description;
+
+    public Member() {
     }
 }

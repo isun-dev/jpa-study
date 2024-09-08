@@ -6,8 +6,6 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.List;
-
 @SpringBootApplication
 public class JpaStudyApplication {
 
@@ -17,17 +15,21 @@ public class JpaStudyApplication {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
-        List<Member> resultList = em.createQuery("select m from Member as m", Member.class)
-                .setFirstResult(1) // 페이지네이션
-                .setMaxResults(5)
-                .getResultList();
+        try {
+            Member member = new Member();
+            member.setId(1L);
+            member.setUsername("A");
+            member.setRoleType(RoleType.USER);
 
-        for (Member member : resultList) {
-            System.out.println("member = " + member.getName());
+            em.persist(member);
+
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        } finally {
+            em.close();
         }
 
-        tx.commit();
-        em.close();
         emf.close();
     }
 }
