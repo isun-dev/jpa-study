@@ -17,9 +17,7 @@ public class JpaStudyApplication {
 
         try {
             Member member = new Member();
-            member.setId(1L);
-            member.setUsername("A");
-            member.setRoleType(RoleType.USER);
+            member.setUsername("B");
 
             em.persist(member);
 
