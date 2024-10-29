@@ -19,10 +19,12 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
+@SequenceGenerator(name = "member_seq_generator",
+        sequenceName = "member_seq")
 public class Member {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본키 생성을 데이터베이스에 위임.
+    @Id // 기본키를 직접 할당한다면 이것만 써도 됨.
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_seq_generator") // 기본키 생성을 데이터베이스에 위임.
     private Long id; // String 으로 할 경우에는 에러가 난다. JPA에서 IDENTITY 전략은 주로 숫자형 데이터 타입에 대해서 자동으로 값을 증가시켜주는데, String 타입으로 선언하게 되면 해당 전략을 사용할 수 없기 때문에 오류가 발생합니다.
 
     @Column(name = "name", nullable = false)
