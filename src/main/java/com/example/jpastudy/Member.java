@@ -20,7 +20,8 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @SequenceGenerator(name = "member_seq_generator",
-        sequenceName = "member_seq")
+        sequenceName = "member_seq",
+        initialValue = 1, allocationSize = 50)
 public class Member {
 
     @Id // 기본키를 직접 할당한다면 이것만 써도 됨.
