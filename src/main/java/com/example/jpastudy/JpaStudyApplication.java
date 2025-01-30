@@ -16,25 +16,27 @@ public class JpaStudyApplication {
         tx.begin();
 
         try {
-            Member member1 = new Member();
-            member1.setUsername("A");
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
 
-            Member member2 = new Member();
-            member2.setUsername("D");
+            MemberNew member = new MemberNew();
+            member.setUsername("admin");
+            member.setTeam(team);
+            em.persist(member);
 
-            Member member3 = new Member();
-            member3.setUsername("C");
+            em.flush(); // db에 변경사항을 즉시 반영해야 할때.
+            em.clear(); // 영속성 컨텍스트에 남아 있는 데이터가 불필요한 경우
 
-            System.out.println("============");
+            MemberNew findMember = em.find(MemberNew.class, member.getId());
+            Team team1 = findMember.getTeam();
 
-             em.persist(member1);
-            // em.persist(member2);
-            // em.persist(member3);
+            System.out.println("team1.getName() = " + team1.getName());
 
-            System.out.println("member = " + member1.getId());
-            System.out.println("member = " + member2.getId());
-            System.out.println("member = " + member3.getId());
-            System.out.println("============");
+            Team newTeam = em.find(Team.class, 100L); // 팀을 바꾸고 싶은 경우
+            findMember.setTeam(newTeam);
+
+
 
             tx.commit();
         } catch (Exception e) {
