@@ -6,6 +6,8 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.List;
+
 @SpringBootApplication
 public class JpaStudyApplication {
 
@@ -29,13 +31,12 @@ public class JpaStudyApplication {
             em.clear(); // 영속성 컨텍스트에 남아 있는 데이터가 불필요한 경우
 
             MemberNew findMember = em.find(MemberNew.class, member.getId());
-            Team team1 = findMember.getTeam();
 
-            System.out.println("team1.getName() = " + team1.getName());
+            List<MemberNew> members = findMember.getTeam().getMembers();
 
-            Team newTeam = em.find(Team.class, 100L); // 팀을 바꾸고 싶은 경우
-            findMember.setTeam(newTeam);
-
+            for (MemberNew memberNew : members) {
+                System.out.println("memberNew = " + memberNew.getUsername());
+            }
 
 
             tx.commit();
